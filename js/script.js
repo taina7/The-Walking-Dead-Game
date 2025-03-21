@@ -50,4 +50,20 @@ document.addEventListener('DOMContentLoaded', () => {
             blood.remove();
         }, 2000);
     }
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleBtn = document.createElement("button");
+        toggleBtn.textContent = "Toggle Dark Mode";
+        toggleBtn.style.margin = "10px";
+        toggleBtn.style.padding = "5px";
+        toggleBtn.style.cursor = "pointer";
+    
+        document.body.prepend(toggleBtn);
+    
+        toggleBtn.addEventListener("click", function () {
+            document.body.classList.toggle("dark-mode");
+        });
+    });
+    
+    // Define the dark mode styles in CSS
+    
 });

@@ -1,37 +1,37 @@
 
 /* General Styles */
 
+/* General Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
-
+    font-family: var(--secondary-font);
 }
 
 /* Background and Fonts */
 body {
-    font-family: 'Courier New', monospace;
-    background-color: #1a1a1a;
-    color: #d4d4d4;
+    font-family: var(--primary-font);
+    background-color: var(--background-color);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
 }
 
 /* Navigation Bar */
 header {
-    background-color: #000;
-    padding: 15px 0;
+    background-color: var(--nav-bg-color);
+    padding: var(--padding) 0;
     text-align: center;
-    border-bottom: 3px solid #a00;
+    border-bottom: 3px solid var(--border-color);
 }
 
 nav ul {
     display: flex;
     justify-content: center;
     list-style: none;
-    padding: 0;
 }
+
 
 nav ul li {
     margin: 0 20px;
@@ -69,6 +69,29 @@ footer {
     padding: 15px;
     font-size: 14px;
 }
+
+:root {
+    /* Colors */
+    --primary-color: #d44444;
+    --background-color: #1a1a1a;
+    --text-color: #ffffff;
+    --nav-bg-color: #000000;
+    --border-color: #a00;
+
+    /* Fonts */
+    --primary-font: 'Courier New', monospace;
+    --secondary-font: Arial, sans-serif;
+
+    /* Spacing */
+    --padding: 15px;
+    --margin: 10px;
+}
+.dark-mode {
+    --background-color: #000000;
+    --text-color: #d44444;
+    --nav-bg-color: #222222;
+}
+
 
 /* Responsive Layout with Flexbox */
 @media (min-width: 768px) {
