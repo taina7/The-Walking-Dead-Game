@@ -1,69 +1,134 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const navLinks = document.querySelectorAll('.nav-link'); // Simpler selector
+    // Navigation elements
+    const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('.section');
+    const themeToggle = document.querySelector('.theme-toggle');
 
-    // Function to show the correct section with an eerie transition
-    function showSection(hash) {
+    // Theme handling
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Set initial theme based on saved preference or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const initialTheme = savedTheme || (prefersDarkScheme.matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', initialTheme);
+    themeToggle.textContent = initialTheme === 'dark' ? '☀️' : '🌙';
+
+    // Theme toggle functionality
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem('theme', newTheme);
+    });
+
+    // Navigation functionality
+    function updateActiveSection(sectionId) {
+        // Update sections
         sections.forEach(section => {
             section.classList.remove('active');
-            if (`#${section.id}` === hash) {
+            if (section.id === sectionId) {
                 section.classList.add('active');
-                playSoundEffect();
-                addBloodSplatter();
+            }
+        });
+        
+        // Update navigation links
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${sectionId}`) {
+                link.classList.add('active');
             }
         });
     }
-
-    // Initial section display on page load
-    showSection(window.location.hash || '#home');
 
     // Handle navigation clicks
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const target = e.target.getAttribute('href');
-            window.location.hash = target;
-            showSection(target);
+            const sectionId = link.getAttribute('href').substring(1);
+            window.location.hash = sectionId;
+            updateActiveSection(sectionId);
         });
     });
 
-    // Handle back/forward browser navigation
+    // Handle hash changes
     window.addEventListener('hashchange', () => {
-        showSection(window.location.hash);
+        const sectionId = window.location.hash.substring(1) || 'home';
+        updateActiveSection(sectionId);
     });
 
-    // Play eerie sound effect
-    function playSoundEffect() {
-        const sound = new Audio('../assets/zombie-growl.mp3'); 
-        sound.volume = 0.5;
-        sound.play();
+    // Form validation
+    const contactForm = document.getElementById('contactForm');
+    const formInputs = contactForm.querySelectorAll('input, textarea');
+    const errorMessages = {
+        name: 'Please enter your name',
+        email: 'Please enter a valid email address',
+        message: 'Please enter your message'
+    };
+
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Show error message
+    function showError(inputId, message) {
+        const errorElement = document.getElementById(`${inputId}Error`);
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
     }
 
-    // Add blood splatter effect
-    function addBloodSplatter() {
-        const blood = document.createElement('img');
-        blood.src = '../assets/blood-splatter.png'; 
-        blood.className = 'blood-effect';
-        document.body.appendChild(blood);
-
-        setTimeout(() => {
-            blood.remove();
-        }, 2000);
+    // Hide error message
+    function hideError(inputId) {
+        const errorElement = document.getElementById(`${inputId}Error`);
+        errorElement.style.display = 'none';
     }
-    document.addEventListener("DOMContentLoaded", function () {
-        const toggleBtn = document.createElement("button");
-        toggleBtn.textContent = "Toggle Dark Mode";
-        toggleBtn.style.margin = "10px";
-        toggleBtn.style.padding = "5px";
-        toggleBtn.style.cursor = "pointer";
-    
-        document.body.prepend(toggleBtn);
-    
-        toggleBtn.addEventListener("click", function () {
-            document.body.classList.toggle("dark-mode");
+
+    // Validate form inputs
+    formInputs.forEach(input => {
+        input.addEventListener('input', () => {
+            const inputId = input.id;
+            
+            if (input.value.trim() === '') {
+                showError(inputId, errorMessages[inputId]);
+            } else if (inputId === 'email' && !emailRegex.test(input.value)) {
+                showError(inputId, errorMessages[inputId]);
+            } else {
+                hideError(inputId);
+            }
         });
     });
-    
-    // Define the dark mode styles in CSS
-    
+
+    // Handle form submission
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        let isValid = true;
+        const formData = new FormData(contactForm);
+        
+        // Validate all fields
+        formInputs.forEach(input => {
+            const inputId = input.id;
+            
+            if (input.value.trim() === '') {
+                showError(inputId, errorMessages[inputId]);
+                isValid = false;
+            } else if (inputId === 'email' && !emailRegex.test(input.value)) {
+                showError(inputId, errorMessages[inputId]);
+                isValid = false;
+            } else {
+                hideError(inputId);
+            }
+        });
+        
+        if (isValid) {
+            // Here you would typically send the form data to a server
+            console.log('Form submitted:', Object.fromEntries(formData));
+            contactForm.reset();
+            alert('Thank you for your message! We will get back to you soon.');
+        }
+    });
+
+    // Initialize active section based on URL hash
+    const initialSection = window.location.hash.substring(1) || 'home';
+    updateActiveSection(initialSection);
 });

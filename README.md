@@ -1,3 +1,48 @@
-# The-Walking-Dead-Game
-<img width="1470" alt="Screenshot 2025-03-09 at 8 59 07 PM" src="https://github.com/user-attachments/assets/56880e29-9728-4d90-aeca-4fefe202bc07" />
-The post-apocalyptic universe of The Walking Dead is the setting for the narratively-driven survival horror game The Walking Dead: Last Refuge. In a world overrun by undead, players assume the role of a survivor fighting to keep a small group of people safe. Every decision has an effect on the plot, interactions among individuals, and group fate.
+# The Walking Dead Game
+
+A web-based game inspired by The Walking Dead series, featuring a dark and atmospheric interface with interactive elements.
+
+## Features
+
+- Dark, apocalyptic theme with custom styling
+- Responsive design for all devices
+- Dark mode toggle
+- Interactive navigation
+- Contact form with validation
+- Smooth transitions and animations
+
+## Technologies Used
+
+- HTML5
+- CSS3 (with CSS Variables and Flexbox)
+- JavaScript (Vanilla)
+- Google Fonts (Creepster, Roboto)
+
+## Getting Started
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/The-Walking-Dead-Game.git
+```
+
+2. Open `index.html` in your web browser to view the project.
+
+## Project Structure
+
+```
+The-Walking-Dead-Game/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   └── script.js
+└── README.md
+```
+
+## Contributing
+
+Feel free to submit issues and enhancement requests!
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
